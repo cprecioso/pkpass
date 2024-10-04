@@ -1,9 +1,10 @@
 import pMemoize from "p-memoize";
 import PQueue from "p-queue";
 import { convertModel as eagerConvertModel } from "./object-to-model.ts";
-import { SCALAR_IMPORT_NAME } from "./type-to-zod.ts";
 
-const SCALAR_IMPORT_PATH = import.meta.resolve("../../runtime/scalars.ts");
+const FILE_PRELUDE = await Deno.readTextFile(
+  new URL("./prelude.ts", import.meta.url)
+);
 
 export const convertSchema = async (
   doc: string,
@@ -30,11 +31,5 @@ export const convertSchema = async (
   void addReference(doc);
   await modelQueue.onIdle();
 
-  return [
-    `import * as ${SCALAR_IMPORT_NAME} from ${JSON.stringify(
-      SCALAR_IMPORT_PATH
-    )};`,
-    `import * as z from "zod";`,
-    ...models,
-  ].join("\n");
+  return [FILE_PRELUDE, ...models].join("\n");
 };

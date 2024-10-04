@@ -1,11 +1,9 @@
 import { assert, assertEquals, unreachable } from "@std/assert";
-import * as definedScalars from "../../runtime/scalars.ts";
+import * as definedScalars from "./prelude.ts";
 import { ReferenceResolvers } from "./reference-resolvers.ts";
 import { TypePart } from "./schema.ts";
 
-export const SCALAR_IMPORT_NAME = "SCALARS";
-const customScalar = (name: keyof typeof definedScalars) =>
-  `${SCALAR_IMPORT_NAME}.${name}`;
+const customScalar = (name: keyof typeof definedScalars) => name;
 
 const makeArrayType = (type: string) => `z.array(${type})`;
 
