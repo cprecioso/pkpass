@@ -7,7 +7,7 @@ const SCALAR_IMPORT_PATH = import.meta.resolve("../../runtime/scalars.ts");
 
 export const convertSchema = async (
   doc: string,
-  { baseUrl, baseUri }: { baseUrl: string; baseUri: string }
+  { baseUrl, baseUri }: { baseUrl: string; baseUri: RegExp }
 ): Promise<string> => {
   const models: string[] = [];
 
@@ -22,8 +22,8 @@ export const convertSchema = async (
 
   const addReference = async (docUri: string) =>
     (await modelQueue.add(async () => {
-      if (docUri.startsWith(baseUri))
-        docUri = `/${docUri.slice(baseUri.length)}`;
+      docUri = docUri.replace(baseUri, "/");
+      docUri = docUri.replace(/-data.dictionary$/, "");
       return await convertModel(docUri, { baseUrl, addReference });
     }))!;
 

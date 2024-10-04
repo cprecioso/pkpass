@@ -48,7 +48,7 @@ export type ContentPart = z.infer<typeof contentPartSchema>;
 
 export const propertyItemSchema = z.object({
   type: z.array(typePartSchema),
-  required: z.boolean(),
+  required: z.boolean().default(false),
   name: z.string(),
   content: z.array(contentPartSchema),
 });
@@ -72,7 +72,7 @@ export const documentSchema = z.object({
   metadata: z.object({
     title: z.string(),
     externalID: z.string(),
-    symbolKind: z.literal("dictionary"),
+    symbolKind: z.enum(["dictionary", "dict"]),
   }),
   primaryContentSections: z.array(
     z.discriminatedUnion("kind", [
