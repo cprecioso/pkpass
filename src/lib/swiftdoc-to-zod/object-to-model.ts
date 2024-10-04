@@ -84,16 +84,13 @@ export const convertModel = async (
 
   return {
     name,
-    definition: [
-      toJSDocComment({
-        content: contentInlinePartsToMarkdown(data.abstract, resolvers),
-        deprecated: Boolean(data.deprecationSummary),
-      }),
-      "export const ",
-      name,
-      ` = ${base}({\n`,
-      ...(modelBodyLines ?? []),
-      "})",
-    ].join(""),
+    definition: `${toJSDocComment({
+      content: contentInlinePartsToMarkdown(data.abstract, resolvers),
+      deprecated: Boolean(data.deprecationSummary),
+    })}
+export const ${name} = ${base}({
+${modelBodyLines.join("\n")}
+})
+export type ${name} = z.input<typeof ${name}>`,
   };
 };
