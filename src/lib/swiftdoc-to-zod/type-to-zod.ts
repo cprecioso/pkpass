@@ -1,5 +1,5 @@
 import { assert, assertEquals, unreachable } from "@std/assert";
-import * as definedScalars from "./prelude.ts";
+import * as definedScalars from "./zod-prelude.ts";
 import { ReferenceResolvers } from "./reference-resolvers.ts";
 import { TypePart } from "./schema.ts";
 

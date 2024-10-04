@@ -3,7 +3,7 @@ import PQueue from "p-queue";
 import { convertModel as eagerConvertModel } from "./object-to-model.ts";
 
 const FILE_PRELUDE = await Deno.readTextFile(
-  new URL("./prelude.ts", import.meta.url)
+  new URL("./zod-prelude.ts", import.meta.url)
 );
 
 export const convertSchema = async (
