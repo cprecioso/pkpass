@@ -1,4 +1,6 @@
-import { convertModel } from "./object-to-model.ts";
+import pMemoize from "p-memoize";
+import PQueue from "p-queue";
+import { convertModel as eagerConvertModel } from "./object-to-model.ts";
 import { SCALAR_IMPORT_NAME } from "./type-to-zod.ts";
 
 const SCALAR_IMPORT_PATH = import.meta.resolve("../../runtime/scalars.ts");
@@ -7,33 +9,32 @@ export const convertSchema = async (
   doc: string,
   { baseUrl, baseUri }: { baseUrl: string; baseUri: string }
 ): Promise<string> => {
-  const seenDocs = new Set<string>();
-  const docQueue: string[] = [];
   const models: string[] = [];
 
-  const addReferenced = (uri: string) => {
-    if (seenDocs.has(uri)) return;
-    seenDocs.add(uri);
-    docQueue.push(uri);
-  };
+  const modelQueue = new PQueue({ autoStart: true });
+  const convertModel = pMemoize(
+    async (...args: Parameters<typeof eagerConvertModel>) => {
+      const model = await eagerConvertModel(...args);
+      models.push(model.definition);
+      return model;
+    }
+  );
 
-  addReferenced(doc);
-  while (true) {
-    let docUri = docQueue.shift();
-    if (!docUri) break;
+  const addReference = async (docUri: string) =>
+    (await modelQueue.add(async () => {
+      if (docUri.startsWith(baseUri))
+        docUri = `/${docUri.slice(baseUri.length)}`;
+      return await convertModel(docUri, { baseUrl, addReference });
+    }))!;
 
-    if (docUri.startsWith(baseUri)) docUri = `/${docUri.slice(baseUri.length)}`;
-
-    const model = await convertModel(docUri, { baseUrl, addReferenced });
-
-    models.push(model.definition);
-  }
+  void addReference(doc);
+  await modelQueue.onIdle();
 
   return [
     `import * as ${SCALAR_IMPORT_NAME} from ${JSON.stringify(
       SCALAR_IMPORT_PATH
     )};`,
     `import * as z from "zod";`,
-    ...models.reverse(),
+    ...models,
   ].join("\n");
 };

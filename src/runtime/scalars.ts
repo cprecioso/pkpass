@@ -8,3 +8,4 @@ export const iso4217 = z
   .transform((code) => code.toUpperCase());
 
 export const localizableString = z.string();
+export const localizableFormatString = z.string();

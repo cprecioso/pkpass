@@ -54,6 +54,15 @@ export const propertyItemSchema = z.object({
 });
 export type PropertyItem = z.infer<typeof propertyItemSchema>;
 
+export const relationshipSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("inheritsFrom"),
+    identifiers: z.array(z.string()).max(1),
+  }),
+  z.object({ type: z.literal("inheritedBy") }),
+]);
+export type Relationship = z.infer<typeof relationshipSchema>;
+
 export const documentSchema = z.object({
   schemaVersion: schemaVersionSchema,
   identifier: z.object({
@@ -76,6 +85,7 @@ export const documentSchema = z.object({
       }),
     ])
   ),
+  relationshipsSections: z.array(relationshipSchema).optional(),
   abstract: z.array(contentInlinePartSchema),
   references: z.record(
     z.object({

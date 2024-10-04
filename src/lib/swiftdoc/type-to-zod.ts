@@ -15,7 +15,7 @@ export const getType = (
 ): {
   definition: string;
   deprecated?: boolean;
-  referenced?: string[];
+  references?: string[];
 } => {
   {
     // Check if it is a reference to an array typeReference
@@ -67,9 +67,20 @@ export const getType = (
         case "ISO 4217 currency code as a string":
           return { definition: customScalar("iso4217") };
 
-        case "localizable string": {
+        case "localizable string":
           return { definition: customScalar("localizableString") };
-        }
+
+        case "Localizable format string":
+          return { definition: customScalar("localizableFormatString") };
+
+        case "localizable string, ISO 8601 date, or number":
+          return {
+            definition: `z.union([${[
+              customScalar("localizableString"),
+              customScalar("iso8601"),
+              "z.number()",
+            ].join(",")}])`,
+          };
 
         default: {
           console.log(part.text);
@@ -84,7 +95,7 @@ export const getType = (
       return {
         definition: resolvers.getTypeSpecReference(part.preciseIdentifier),
         deprecated: resolvers.getReference(part.identifier).deprecated,
-        referenced: [part.identifier],
+        references: [part.identifier],
       };
     }
 

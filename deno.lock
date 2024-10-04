@@ -7,6 +7,7 @@
       "jsr:@std/path@^1.0.6": "jsr:@std/path@1.0.6",
       "npm:@sindresorhus/slugify@^2.2.1": "npm:@sindresorhus/slugify@2.2.1",
       "npm:dprint": "npm:dprint@0.47.2",
+      "npm:p-memoize@^7.1.1": "npm:p-memoize@7.1.1",
       "npm:p-queue@^8.0.1": "npm:p-queue@8.0.1",
       "npm:zod@^3.23.8": "npm:zod@3.23.8"
     },
@@ -91,6 +92,17 @@
         "integrity": "sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==",
         "dependencies": {}
       },
+      "mimic-fn@4.0.0": {
+        "integrity": "sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==",
+        "dependencies": {}
+      },
+      "p-memoize@7.1.1": {
+        "integrity": "sha512-DZ/bONJILHkQ721hSr/E9wMz5Am/OTJ9P6LhLFo2Tu+jL8044tgc9LwHO8g4PiaYePnlVVRAJcKmgy8J9MVFrA==",
+        "dependencies": {
+          "mimic-fn": "mimic-fn@4.0.0",
+          "type-fest": "type-fest@3.13.1"
+        }
+      },
       "p-queue@8.0.1": {
         "integrity": "sha512-NXzu9aQJTAzbBqOt2hwsR63ea7yvxJc0PwN/zobNAudYfb1B7R08SzB4TsLeSbUCuG467NhnoT0oO6w1qRO+BA==",
         "dependencies": {
@@ -100,6 +112,10 @@
       },
       "p-timeout@6.1.2": {
         "integrity": "sha512-UbD77BuZ9Bc9aABo74gfXhNvzC9Tx7SxtHSh1fxvx3jTLLYvmVhiQZZrJzqqU0jKbN32kb5VOKiLEQI/3bIjgQ==",
+        "dependencies": {}
+      },
+      "type-fest@3.13.1": {
+        "integrity": "sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==",
         "dependencies": {}
       },
       "zod@3.23.8": {
@@ -119,6 +135,13 @@
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Locations-data.dictionary.json": "1421a2d05cad9e325142b2d29b0cf32a8e3cf75a3c9dfb26e46fb85919b2ca57",
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/NFC-data.dictionary.json": "aa516c83ed1abb15dce81c1dc1563918a7232ff3c07d8f207561024652eed79e",
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/StoreCard-data.dictionary.json": "a131ce65f8b1db172f0e3d71e93636e0f560842efaf61e7f8be210e362f3dab8",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFieldContent.json": "40e2909b17defea1aa3a0a56bf01e03f6582684c5419da823a34de59dd9bf7c7",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields.json": "596fe8ecbc46bb3ff8c85fb87e07b670546aa98cb838edb7287f0609ed7a96f4",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/AuxiliaryFields-data.dictionary.json": "246a3b9bf43c27a4eae40fa98a09e1f8349e6725e032502302aa90c83a857cb0",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/BackFields-data.dictionary.json": "02e2ae2813e19528e104749eff1644a3dd35536bf323c7459e14919e32e081cf",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/HeaderFields-data.dictionary.json": "4aba147f0c2693416bf2dedc28ee31325df3c3183376d5e0fb9cf0c89b988f6a",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/PrimaryFields-data.dictionary.json": "62e5d17d1a0b1078e730c4684c8ef0ab23b04ce1d2a29df02af5949d6a25e8dd",
+    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/SecondaryFields-data.dictionary.json": "25ad10ba9293d625c34cd39ccae7c002d3320e3fcf3742e2e7b9fb3afe2ff6ae",
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/CurrencyAmount-data.dictionary.json": "2dcb1231a7365d694315380894106cf0ea9994afe52ee0eb6baf3664d69f15fd",
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/Location-data.dictionary.json": "83c9b0e02326e8a8b65a13f27255b88fb7f15dfe6e52de5cd226b21935bcf213",
     "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/PersonNameComponents-data.dictionary.json": "939df556345653a45dad9c01897f6501c5df35c76264d50866e8efceb4536911",
@@ -132,6 +155,7 @@
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/path@^1.0.6",
       "npm:@sindresorhus/slugify@^2.2.1",
+      "npm:p-memoize@^7.1.1",
       "npm:p-queue@^8.0.1",
       "npm:zod@^3.23.8"
     ]

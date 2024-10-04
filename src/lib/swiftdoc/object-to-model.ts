@@ -1,16 +1,19 @@
+import { assertEquals } from "@std/assert";
 import { fetchJson } from "../http.ts";
 import { contentPartsToMarkdown } from "./content-to-markdown.ts";
 import { ReferenceResolvers } from "./reference-resolvers.ts";
 import { documentSchema } from "./schema.ts";
 import { getType } from "./type-to-zod.ts";
 
+type ModelReturn = { name: string; definition: string };
+
 export const convertModel = async (
   doc: string,
   {
     baseUrl,
-    addReferenced,
-  }: { baseUrl: string; addReferenced: (uri: string) => void }
-): Promise<{ definition: string }> => {
+    addReference,
+  }: { baseUrl: string; addReference: (uri: string) => Promise<ModelReturn> }
+): Promise<ModelReturn> => {
   const relativeDocUrl = doc
     .replace(/^.?\/?/, "./")
     .replace(/(?:\.json)?$/, ".json");
@@ -28,37 +31,58 @@ export const convertModel = async (
       required: property.required,
     }));
 
-  const modelBodyLines = properties?.map((property) => {
-    const type = getType(property.type, resolvers);
+  const modelBodyLines = await Promise.all(
+    properties?.map(async (property) => {
+      const type = getType(property.type, resolvers);
 
-    type.referenced?.forEach((uri) => addReferenced(uri));
+      if (type.references) {
+        await Promise.all(type.references.map((uri) => addReference(uri)));
+      }
 
-    return [
-      (property.description || type.deprecated) &&
-        [
-          "/**",
-          ...[
-            ...(type.deprecated ? ["@deprecated"] : []),
-            ...(property.description?.split("\n") ?? []),
-          ].map((line) => ` * ${line}`),
-          " */",
-          "",
-        ].join("\n"),
-      JSON.stringify(property.name),
-      ": ",
-      type.definition,
-      !property.required && ".optional()",
-      ",\n",
-    ]
-      .filter((v): v is string => Boolean(v))
-      .join("");
-  });
+      return [
+        (property.description || type.deprecated) &&
+          [
+            "/**",
+            ...[
+              ...(type.deprecated ? ["@deprecated"] : []),
+              ...(property.description?.split("\n") ?? []),
+            ].map((line) => ` * ${line}`),
+            " */",
+            "",
+          ].join("\n"),
+        JSON.stringify(property.name),
+        ": ",
+        type.definition,
+        !property.required && ".optional()",
+        ",\n",
+      ]
+        .filter((v): v is string => Boolean(v))
+        .join("");
+    }) ?? []
+  );
+
+  const inheritsFrom = data.relationshipsSections?.find(
+    (section) => section.type === "inheritsFrom"
+  )?.identifiers;
+
+  let base = "z.object";
+
+  if (inheritsFrom) {
+    assertEquals(inheritsFrom.length, 1);
+    const [uri] = inheritsFrom;
+    const referencedModel = await addReference(uri);
+
+    base = `${referencedModel.name}.extend`;
+  }
+
+  const name = resolvers.getTypeSpecDefinitionName(data.metadata.externalID);
 
   return {
+    name,
     definition: [
       "export const ",
-      resolvers.getTypeSpecDefinitionName(data.metadata.externalID),
-      " = z.object({\n",
+      name,
+      ` = ${base}({\n`,
       ...(modelBodyLines ?? []),
       "})",
     ].join(""),
