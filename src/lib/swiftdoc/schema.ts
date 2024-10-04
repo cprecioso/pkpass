@@ -94,5 +94,6 @@ export const documentSchema = z.object({
       deprecated: z.boolean().default(false),
     })
   ),
+  deprecationSummary: z.array(z.unknown()).optional(),
 });
 export type Document = z.infer<typeof documentSchema>;

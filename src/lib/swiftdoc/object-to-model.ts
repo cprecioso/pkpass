@@ -1,6 +1,10 @@
 import { assertEquals } from "@std/assert";
 import { fetchJson } from "../http.ts";
-import { contentPartsToMarkdown } from "./content-to-markdown.ts";
+import {
+  contentInlinePartsToMarkdown,
+  contentPartsToMarkdown,
+} from "./content-to-markdown.ts";
+import { toJSDocComment } from "./jsdoc-comments.ts";
 import { ReferenceResolvers } from "./reference-resolvers.ts";
 import { documentSchema } from "./schema.ts";
 import { getType } from "./type-to-zod.ts";
@@ -41,15 +45,10 @@ export const convertModel = async (
 
       return [
         (property.description || type.deprecated) &&
-          [
-            "/**",
-            ...[
-              ...(type.deprecated ? ["@deprecated"] : []),
-              ...(property.description?.split("\n") ?? []),
-            ].map((line) => ` * ${line}`),
-            " */",
-            "",
-          ].join("\n"),
+          toJSDocComment({
+            content: property.description,
+            deprecated: type.deprecated,
+          }),
         JSON.stringify(property.name),
         ": ",
         type.definition,
@@ -80,6 +79,10 @@ export const convertModel = async (
   return {
     name,
     definition: [
+      toJSDocComment({
+        content: contentInlinePartsToMarkdown(data.abstract, resolvers),
+        deprecated: Boolean(data.deprecationSummary),
+      }),
       "export const ",
       name,
       ` = ${base}({\n`,
