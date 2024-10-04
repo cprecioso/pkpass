@@ -3,7 +3,6 @@
     "@sindresorhus/slugify": "npm:@sindresorhus/slugify@^2.2.1",
     "@std/assert": "jsr:@std/assert@^1.0.6",
     "@std/path": "jsr:@std/path@^1.0.6",
-    "@typespec/compiler": "npm:@typespec/compiler@^0.60.1",
     "p-queue": "npm:p-queue@^8.0.1",
     "zod": "npm:zod@^3.23.8"
   }

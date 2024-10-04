@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 import { assert } from "@std/assert";
-import { Document } from "../schemas/swiftdoc.ts";
+import { Document } from "./schema.ts";
 
 const URI_PREFIX = /^doc:\/\/com.apple.documentation\//;
 const URL_PREFIX = "https://developer.apple.com/";
@@ -12,7 +12,7 @@ export const uriToBrowserUrl = (uri: string) => {
 
 const camelize = (str: string) => `${str.at(0)?.toUpperCase()}${str.slice(1)}`;
 
-export class DocumentResolvers {
+export class ReferenceResolvers {
   #documentReferences;
 
   constructor(document: Document) {

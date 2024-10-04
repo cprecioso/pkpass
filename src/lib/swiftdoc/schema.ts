@@ -3,7 +3,7 @@ import * as z from "zod";
 export const schemaVersionSchema = z
   .object({ major: z.literal(0), minor: z.number().gte(3), patch: z.number() })
   .strict();
-export type SchemaVersion = z.input<typeof schemaVersionSchema>;
+export type SchemaVersion = z.infer<typeof schemaVersionSchema>;
 
 export const typePartSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("text"), text: z.string() }).strict(),
@@ -16,12 +16,13 @@ export const typePartSchema = z.discriminatedUnion("kind", [
     })
     .strict(),
 ]);
-export type TypePart = z.input<typeof typePartSchema>;
+export type TypePart = z.infer<typeof typePartSchema>;
 
 export const contentInlinePartSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("text"), text: z.string() }).strict(),
   z.object({
     type: z.literal("emphasis"),
+    // deno-lint-ignore no-explicit-any
     inlineContent: z.array(z.lazy((): any => contentInlinePartSchema)),
   }),
   z.object({ type: z.literal("codeVoice"), code: z.string() }).strict(),
@@ -33,7 +34,7 @@ export const contentInlinePartSchema = z.discriminatedUnion("type", [
     })
     .strict(),
 ]);
-export type ContentInlinePart = z.input<typeof contentInlinePartSchema>;
+export type ContentInlinePart = z.infer<typeof contentInlinePartSchema>;
 
 export const contentPartSchema = z.discriminatedUnion("type", [
   z
@@ -43,7 +44,7 @@ export const contentPartSchema = z.discriminatedUnion("type", [
     })
     .strict(),
 ]);
-export type ContentPart = z.input<typeof contentPartSchema>;
+export type ContentPart = z.infer<typeof contentPartSchema>;
 
 export const propertyItemSchema = z.object({
   type: z.array(typePartSchema),
@@ -51,7 +52,7 @@ export const propertyItemSchema = z.object({
   name: z.string(),
   content: z.array(contentPartSchema),
 });
-export type PropertyItem = z.input<typeof propertyItemSchema>;
+export type PropertyItem = z.infer<typeof propertyItemSchema>;
 
 export const documentSchema = z.object({
   schemaVersion: schemaVersionSchema,
@@ -84,4 +85,4 @@ export const documentSchema = z.object({
     })
   ),
 });
-export type Document = z.input<typeof documentSchema>;
+export type Document = z.infer<typeof documentSchema>;
