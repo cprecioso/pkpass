@@ -46,11 +46,17 @@ export const contentPartSchema = z.discriminatedUnion("type", [
 ]);
 export type ContentPart = z.infer<typeof contentPartSchema>;
 
+export const attributeSchema = z.discriminatedUnion("kind", [
+  z.object({ kind: z.literal("allowedValues"), values: z.array(z.string()) }),
+]);
+export type Attribute = z.infer<typeof attributeSchema>;
+
 export const propertyItemSchema = z.object({
   type: z.array(typePartSchema),
   required: z.boolean().default(false),
   name: z.string(),
   content: z.array(contentPartSchema),
+  attributes: z.array(attributeSchema).optional(),
 });
 export type PropertyItem = z.infer<typeof propertyItemSchema>;
 

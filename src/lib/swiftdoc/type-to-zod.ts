@@ -1,4 +1,4 @@
-import { assertEquals, unreachable } from "@std/assert";
+import { assert, assertEquals, unreachable } from "@std/assert";
 import * as definedScalars from "../../runtime/scalars.ts";
 import { ReferenceResolvers } from "./reference-resolvers.ts";
 import { TypePart } from "./schema.ts";
@@ -11,7 +11,10 @@ const makeArrayType = (type: string) => `z.array(${type})`;
 
 export const getType = (
   parts: TypePart[],
-  resolvers: ReferenceResolvers
+  {
+    resolvers,
+    allowedValues,
+  }: { resolvers: ReferenceResolvers; allowedValues?: string[] }
 ): {
   definition: string;
   deprecated?: boolean;
@@ -28,7 +31,8 @@ export const getType = (
       lastPart?.kind === "text" &&
       lastPart.text === "]"
     ) {
-      const inner = getType(parts.slice(1, -1), resolvers);
+      assert(!allowedValues, "Unsupported allowedValues inside an array");
+      const inner = getType(parts.slice(1, -1), { resolvers });
       return { ...inner, definition: makeArrayType(inner.definition) };
     }
   }
@@ -39,11 +43,32 @@ export const getType = (
   switch (part.kind) {
     case "text": {
       if (part.text.startsWith("[") && part.text.endsWith("]")) {
+        assert(!allowedValues, "Unsupported allowedValues inside an array");
         const inner = getType(
           [{ kind: "text", text: part.text.slice(1, -1) }],
-          resolvers
+          { resolvers }
         );
         return { ...inner, definition: makeArrayType(inner.definition) };
+      }
+
+      if (allowedValues) {
+        switch (part.text) {
+          case "number":
+            return {
+              definition: `z.union([${allowedValues
+                .map((value) => `z.literal(${value})`)
+                .join(", ")}])`,
+            };
+          case "string":
+            return {
+              definition: `z.enum([${allowedValues
+                .map((value) => JSON.stringify(value))
+                .join(", ")}])`,
+            };
+          default: {
+            return unreachable(`Unknown allowed values type`);
+          }
+        }
       }
 
       switch (part.text) {
@@ -83,7 +108,6 @@ export const getType = (
           };
 
         default: {
-          console.log(part.text);
           return unreachable(`Unknown TypePart text`);
         }
       }

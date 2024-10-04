@@ -33,11 +33,17 @@ export const convertModel = async (
       type: property.type,
       description: contentPartsToMarkdown(property.content, resolvers),
       required: property.required,
+      allowedValues: property.attributes?.find(
+        (attribute) => attribute.kind === "allowedValues"
+      )?.values,
     }));
 
   const modelBodyLines = await Promise.all(
     properties?.map(async (property) => {
-      const type = getType(property.type, resolvers);
+      const type = getType(property.type, {
+        resolvers,
+        allowedValues: property.allowedValues,
+      });
 
       if (type.references) {
         await Promise.all(type.references.map((uri) => addReference(uri)));
