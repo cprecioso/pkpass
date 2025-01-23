@@ -9,8 +9,19 @@ export const iso4217 = z
   .transform((code) => code.toUpperCase());
 export type iso4217 = z.input<typeof iso4217>;
 
-export const localizableString = z.string();
-export type localizableString = z.input<typeof localizableString>;
+export const formatString = z.string().brand<"formatString">();
+export type formatString = z.input<typeof formatString>;
 
-export const localizableFormatString = z.string();
+export const localizedFormatString = z
+  .string()
+  .brand<"localizedFormatString">();
+export type localizedFormatString = z.input<typeof localizedString>;
+
+export const localizableFormatString = formatString.or(localizedFormatString);
 export type localizableFormatString = z.input<typeof localizableFormatString>;
+
+export const localizedString = z.string().brand<"localizedString">();
+export type localizedString = z.input<typeof localizedString>;
+
+export const localizableString = z.string().or(localizedString);
+export type localizableString = z.input<typeof localizableString>;
