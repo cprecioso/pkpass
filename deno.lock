@@ -1,12 +1,13 @@
 {
   "version": "4",
   "specifiers": {
-    "jsr:@std/assert@^1.0.6": "1.0.11",
+    "jsr:@std/assert@^1.0.11": "1.0.11",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "npm:@sindresorhus/slugify@^2.2.1": "2.2.1",
     "npm:p-memoize@^7.1.1": "7.1.1",
-    "npm:p-queue@^8.0.1": "8.1.0",
-    "npm:zod@^3.23.8": "3.24.1"
+    "npm:p-queue@^8.1.0": "8.1.0",
+    "npm:prettier@^3.4.2": "3.4.2",
+    "npm:zod@^3.24.1": "3.24.1"
   },
   "jsr": {
     "@std/assert@1.0.11": {
@@ -59,6 +60,9 @@
     "p-timeout@6.1.4": {
       "integrity": "sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg=="
     },
+    "prettier@3.4.2": {
+      "integrity": "sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ=="
+    },
     "type-fest@3.13.1": {
       "integrity": "sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g=="
     },
@@ -68,12 +72,13 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@^1.0.6",
-      "jsr:@std/path@^1.0.6",
+      "jsr:@std/assert@^1.0.11",
+      "jsr:@std/path@^1.0.8",
       "npm:@sindresorhus/slugify@^2.2.1",
       "npm:p-memoize@^7.1.1",
-      "npm:p-queue@^8.0.1",
-      "npm:zod@^3.23.8"
+      "npm:p-queue@^8.1.0",
+      "npm:prettier@^3.4.2",
+      "npm:zod@^3.24.1"
     ]
   }
 }

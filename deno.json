@@ -1,10 +1,11 @@
 {
   "imports": {
     "@sindresorhus/slugify": "npm:@sindresorhus/slugify@^2.2.1",
-    "@std/assert": "jsr:@std/assert@^1.0.6",
-    "@std/path": "jsr:@std/path@^1.0.6",
+    "@std/assert": "jsr:@std/assert@^1.0.11",
+    "@std/path": "jsr:@std/path@^1.0.8",
     "p-memoize": "npm:p-memoize@^7.1.1",
-    "p-queue": "npm:p-queue@^8.0.1",
-    "zod": "npm:zod@^3.23.8"
+    "p-queue": "npm:p-queue@^8.1.0",
+    "prettier": "npm:prettier@^3.4.2",
+    "zod": "npm:zod@^3.24.1"
   }
 }

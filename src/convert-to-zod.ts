@@ -1,3 +1,4 @@
+import { format } from "prettier";
 import { convertSchema } from "./lib/swiftdoc-to-zod/main.ts";
 
 const schema = await convertSchema("/documentation/walletpasses/pass", {
@@ -5,4 +6,8 @@ const schema = await convertSchema("/documentation/walletpasses/pass", {
   baseUri: "doc://com.apple.walletpasses/",
 });
 
-console.log(schema);
+const formatted = await format(schema, {
+  parser: "typescript",
+});
+
+console.log(formatted);
