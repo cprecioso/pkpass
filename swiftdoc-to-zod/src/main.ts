@@ -2,13 +2,13 @@ import pMemoize from "p-memoize";
 import PQueue from "p-queue";
 import { convertModel as eagerConvertModel } from "./object-to-model.ts";
 
-const FILE_PRELUDE = await Deno.readTextFile(
-  new URL("./zod-prelude.ts", import.meta.url),
-);
-
 export const convertSchema = async (
   doc: string,
-  { baseUrl, baseUri }: { baseUrl: string; baseUri: string },
+  { baseUrl, baseUri, fetchJson }: {
+    baseUrl: string;
+    baseUri: string;
+    fetchJson: (url: string) => Promise<unknown>;
+  },
 ): Promise<string> => {
   const models: string[] = [];
 
@@ -24,11 +24,16 @@ export const convertSchema = async (
   const addReference = async (docUri: string) =>
     (await modelQueue.add(async () => {
       docUri = docUri.replace(baseUri, "/");
-      return await convertModel(docUri, { baseUrl, addReference });
+      return await convertModel(docUri, { baseUrl, addReference, fetchJson });
     }))!;
 
   void addReference(doc);
   await modelQueue.onIdle();
 
-  return [FILE_PRELUDE, ...models].join("\n");
+  return [
+    `import * as customScalars from "@pkpass/schema-runtime";`,
+    `import * as z from "zod";`,
+    "",
+    ...models,
+  ].join("\n");
 };

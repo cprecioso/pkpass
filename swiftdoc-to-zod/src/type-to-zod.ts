@@ -1,9 +1,10 @@
+import type * as definedCustomScalars from "@pkpass/schema-runtime";
 import { assert, assertEquals, unreachable } from "@std/assert";
-import * as definedScalars from "./zod-prelude.ts";
-import { ReferenceResolvers } from "./reference-resolvers.ts";
-import { TypePart } from "./schema.ts";
+import type { ReferenceResolvers } from "./reference-resolvers.ts";
+import type { TypePart } from "./schema.ts";
 
-const customScalar = (name: keyof typeof definedScalars) => name;
+const customScalar = (name: keyof typeof definedCustomScalars) =>
+  `customScalars.${name}`;
 
 const makeArrayType = (type: string) => `z.array(${type})`;
 

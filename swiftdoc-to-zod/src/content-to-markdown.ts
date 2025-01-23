@@ -1,6 +1,6 @@
 import { assertEquals, unreachable } from "@std/assert";
-import { ReferenceResolvers } from "./reference-resolvers.ts";
-import { ContentInlinePart, ContentPart } from "./schema.ts";
+import type { ReferenceResolvers } from "./reference-resolvers.ts";
+import type { ContentInlinePart, ContentPart } from "./schema.ts";
 
 export const contentInlinePartsToMarkdown = (
   parts: Iterable<ContentInlinePart>,

@@ -1,6 +1,6 @@
 import slugify from "@sindresorhus/slugify";
 import { assert } from "@std/assert";
-import { Document } from "./schema.ts";
+import type { Document } from "./schema.ts";
 
 const URI_PREFIX = /^doc:\/\/com.apple.documentation\//;
 const URL_PREFIX = "https://developer.apple.com/";

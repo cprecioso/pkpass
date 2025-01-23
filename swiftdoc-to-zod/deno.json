@@ -1,0 +1,10 @@
+{
+  "name": "@pkpass/swiftdoc-to-zod",
+  "exports": "./src/main.ts",
+  "imports": {
+    "@sindresorhus/slugify": "npm:@sindresorhus/slugify@^2.2.1",
+    "@std/assert": "jsr:@std/assert@^1.0.11",
+    "p-memoize": "npm:p-memoize@^7.1.1",
+    "p-queue": "npm:p-queue@^8.1.0"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "name": "@pkpass/schema-runtime",
+  "exports": "./src/main.ts"
+}

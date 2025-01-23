@@ -1,5 +1,4 @@
 import { assertEquals } from "@std/assert";
-import { fetchJson } from "../http.ts";
 import {
   contentInlinePartsToMarkdown,
   contentPartsToMarkdown,
@@ -16,13 +15,19 @@ export const convertModel = async (
   {
     baseUrl,
     addReference,
-  }: { baseUrl: string; addReference: (uri: string) => Promise<ModelReturn> },
+    fetchJson,
+  }: {
+    baseUrl: string;
+    addReference: (uri: string) => Promise<ModelReturn>;
+    fetchJson: (url: string) => Promise<unknown>;
+  },
 ): Promise<ModelReturn> => {
   const relativeDocUrl = doc
     .replace(/^.?\/?/, "./")
     .replace(/(?:\.json)?$/, ".json");
   const jsonUrl = new URL(relativeDocUrl, baseUrl).href;
-  const data = await fetchJson(jsonUrl, documentSchema);
+
+  const data = documentSchema.parse(await fetchJson(jsonUrl));
 
   const resolvers = new ReferenceResolvers(data);
 
