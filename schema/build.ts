@@ -12,5 +12,8 @@ const formatted = await format(schema, {
   parser: "typescript",
 });
 
-await Deno.mkdir("./out", { recursive: true });
-await Deno.writeTextFile("./out/schema.ts", formatted);
+await Deno.mkdir(new URL("./out/", import.meta.url), { recursive: true });
+await Deno.writeTextFile(
+  new URL("./out/schema.ts", import.meta.url),
+  formatted,
+);

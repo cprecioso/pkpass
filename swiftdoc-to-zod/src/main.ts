@@ -27,7 +27,7 @@ export const convertSchema = async (
       return await convertModel(docUri, { baseUrl, addReference, fetchJson });
     }))!;
 
-  void addReference(doc);
+  await addReference(doc);
   await modelQueue.onIdle();
 
   return [

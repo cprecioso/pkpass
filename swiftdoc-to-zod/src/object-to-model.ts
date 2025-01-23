@@ -63,6 +63,8 @@ export const convertModel = async (
         JSON.stringify(property.name),
         ": ",
         type.definition,
+        // Workaround because the PassFields definitions are not declared as arrays for some reason
+        property.name.endsWith("Fields") && ".array()",
         !property.required && ".optional()",
         ",\n",
       ]
