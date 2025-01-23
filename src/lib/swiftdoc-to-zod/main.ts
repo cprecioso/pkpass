@@ -8,7 +8,7 @@ const FILE_PRELUDE = await Deno.readTextFile(
 
 export const convertSchema = async (
   doc: string,
-  { baseUrl, baseUri }: { baseUrl: string; baseUri: RegExp }
+  { baseUrl, baseUri }: { baseUrl: string; baseUri: string }
 ): Promise<string> => {
   const models: string[] = [];
 
@@ -24,7 +24,6 @@ export const convertSchema = async (
   const addReference = async (docUri: string) =>
     (await modelQueue.add(async () => {
       docUri = docUri.replace(baseUri, "/");
-      docUri = docUri.replace(/-data.dictionary$/, "");
       return await convertModel(docUri, { baseUrl, addReference });
     }))!;
 
