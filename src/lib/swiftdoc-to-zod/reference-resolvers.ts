@@ -33,7 +33,7 @@ export class ReferenceResolvers {
 
   getTypeSpecDefinitionName(id: string) {
     return camelize(
-      slugify(id, { separator: "", decamelize: false, lowercase: false })
+      slugify(id, { separator: "", decamelize: false, lowercase: false }),
     );
   }
 

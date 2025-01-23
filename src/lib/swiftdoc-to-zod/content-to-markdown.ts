@@ -4,7 +4,7 @@ import { ContentInlinePart, ContentPart } from "./schema.ts";
 
 export const contentInlinePartsToMarkdown = (
   parts: Iterable<ContentInlinePart>,
-  resolvers: ReferenceResolvers
+  resolvers: ReferenceResolvers,
 ) =>
   Array.from(parts, (part): string => {
     switch (part.type) {
@@ -19,10 +19,12 @@ export const contentInlinePartsToMarkdown = (
         return `[\`${title}\`](${url})`;
       }
       case "emphasis": {
-        return `_${contentInlinePartsToMarkdown(
-          part.inlineContent,
-          resolvers
-        )}_`;
+        return `_${
+          contentInlinePartsToMarkdown(
+            part.inlineContent,
+            resolvers,
+          )
+        }_`;
       }
       default: {
         part satisfies never;
@@ -33,13 +35,13 @@ export const contentInlinePartsToMarkdown = (
 
 export const contentPartsToMarkdown = (
   parts: Iterable<ContentPart>,
-  resolvers: ReferenceResolvers
+  resolvers: ReferenceResolvers,
 ) =>
   Array.from(parts, (part) => {
     assertEquals(
       part.type satisfies "paragraph",
       "paragraph",
-      "Unknown ContentPart type"
+      "Unknown ContentPart type",
     );
     return contentInlinePartsToMarkdown(part.inlineContent, resolvers);
   }).join("\n\n");

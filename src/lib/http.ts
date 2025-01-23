@@ -5,7 +5,7 @@ const httpQueue = new PQueue({ autoStart: true, concurrency: 2 });
 
 export const fetchJson = <T extends z.ZodTypeAny>(
   url: string,
-  schema: T
+  schema: T,
 ): Promise<z.output<T>> =>
   httpQueue.add(async () => {
     const { default: data } = await import(url, { with: { type: "json" } });

@@ -89,7 +89,7 @@ export const documentSchema = z.object({
       z.object({
         kind: z.enum(["declarations", "attributes", "mentions", "content"]),
       }),
-    ])
+    ]),
   ),
   relationshipsSections: z.array(relationshipSchema).optional(),
   abstract: z.array(contentInlinePartSchema),
@@ -98,7 +98,7 @@ export const documentSchema = z.object({
       title: z.string(),
       url: z.string(),
       deprecated: z.boolean().default(false),
-    })
+    }),
   ),
   deprecationSummary: z.array(z.unknown()).optional(),
 });

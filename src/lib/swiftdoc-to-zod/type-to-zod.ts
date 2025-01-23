@@ -12,7 +12,7 @@ export const getType = (
   {
     resolvers,
     allowedValues,
-  }: { resolvers: ReferenceResolvers; allowedValues?: string[] }
+  }: { resolvers: ReferenceResolvers; allowedValues?: string[] },
 ): {
   definition: string;
   deprecated?: boolean;
@@ -43,7 +43,7 @@ export const getType = (
       if (part.text.startsWith("[") && part.text.endsWith("]")) {
         const inner = getType(
           [{ kind: "text", text: part.text.slice(1, -1) }],
-          { resolvers, allowedValues }
+          { resolvers, allowedValues },
         );
         return { ...inner, definition: makeArrayType(inner.definition) };
       }
@@ -52,15 +52,19 @@ export const getType = (
         switch (part.text) {
           case "number":
             return {
-              definition: `z.union([${allowedValues
-                .map((value) => `z.literal(${value})`)
-                .join(", ")}])`,
+              definition: `z.union([${
+                allowedValues
+                  .map((value) => `z.literal(${value})`)
+                  .join(", ")
+              }])`,
             };
           case "string":
             return {
-              definition: `z.enum([${allowedValues
-                .map((value) => JSON.stringify(value))
-                .join(", ")}])`,
+              definition: `z.enum([${
+                allowedValues
+                  .map((value) => JSON.stringify(value))
+                  .join(", ")
+              }])`,
             };
           default: {
             return unreachable(`Unknown allowed values type`);
@@ -97,11 +101,13 @@ export const getType = (
 
         case "localizable string, ISO 8601 date, or number":
           return {
-            definition: `z.union([${[
-              customScalar("localizableString"),
-              customScalar("iso8601"),
-              "z.number()",
-            ].join(",")}])`,
+            definition: `z.union([${
+              [
+                customScalar("localizableString"),
+                customScalar("iso8601"),
+                "z.number()",
+              ].join(",")
+            }])`,
           };
 
         default: {

@@ -3,12 +3,12 @@ import PQueue from "p-queue";
 import { convertModel as eagerConvertModel } from "./object-to-model.ts";
 
 const FILE_PRELUDE = await Deno.readTextFile(
-  new URL("./zod-prelude.ts", import.meta.url)
+  new URL("./zod-prelude.ts", import.meta.url),
 );
 
 export const convertSchema = async (
   doc: string,
-  { baseUrl, baseUri }: { baseUrl: string; baseUri: string }
+  { baseUrl, baseUri }: { baseUrl: string; baseUri: string },
 ): Promise<string> => {
   const models: string[] = [];
 
@@ -18,7 +18,7 @@ export const convertSchema = async (
       const model = await eagerConvertModel(...args);
       models.push(model.definition);
       return model;
-    }
+    },
   );
 
   const addReference = async (docUri: string) =>

@@ -16,7 +16,7 @@ export const convertModel = async (
   {
     baseUrl,
     addReference,
-  }: { baseUrl: string; addReference: (uri: string) => Promise<ModelReturn> }
+  }: { baseUrl: string; addReference: (uri: string) => Promise<ModelReturn> },
 ): Promise<ModelReturn> => {
   const relativeDocUrl = doc
     .replace(/^.?\/?/, "./")
@@ -34,7 +34,7 @@ export const convertModel = async (
       description: contentPartsToMarkdown(property.content, resolvers),
       required: property.required,
       allowedValues: property.attributes?.find(
-        (attribute) => attribute.kind === "allowedValues"
+        (attribute) => attribute.kind === "allowedValues",
       )?.values,
     }));
 
@@ -51,10 +51,10 @@ export const convertModel = async (
 
       return [
         (property.description || type.deprecated) &&
-          toJSDocComment({
-            content: property.description,
-            deprecated: type.deprecated,
-          }),
+        toJSDocComment({
+          content: property.description,
+          deprecated: type.deprecated,
+        }),
         JSON.stringify(property.name),
         ": ",
         type.definition,
@@ -63,11 +63,11 @@ export const convertModel = async (
       ]
         .filter((v): v is string => Boolean(v))
         .join("");
-    }) ?? []
+    }) ?? [],
   );
 
   const inheritsFrom = data.relationshipsSections?.find(
-    (section) => section.type === "inheritsFrom"
+    (section) => section.type === "inheritsFrom",
   )?.identifiers;
 
   let base = "z.object";
@@ -84,10 +84,12 @@ export const convertModel = async (
 
   return {
     name,
-    definition: `${toJSDocComment({
-      content: contentInlinePartsToMarkdown(data.abstract, resolvers),
-      deprecated: Boolean(data.deprecationSummary),
-    })}
+    definition: `${
+      toJSDocComment({
+        content: contentInlinePartsToMarkdown(data.abstract, resolvers),
+        deprecated: Boolean(data.deprecationSummary),
+      })
+    }
 export const ${name} = ${base}({
 ${modelBodyLines.join("\n")}
 })
