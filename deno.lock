@@ -1,108 +1,70 @@
 {
-  "version": "3",
-  "packages": {
-    "specifiers": {
-      "jsr:@std/assert@^1.0.6": "jsr:@std/assert@1.0.6",
-      "jsr:@std/internal@^1.0.4": "jsr:@std/internal@1.0.4",
-      "jsr:@std/path@^1.0.6": "jsr:@std/path@1.0.6",
-      "npm:@sindresorhus/slugify@^2.2.1": "npm:@sindresorhus/slugify@2.2.1",
-      "npm:p-memoize@^7.1.1": "npm:p-memoize@7.1.1",
-      "npm:p-queue@^8.0.1": "npm:p-queue@8.0.1",
-      "npm:zod@^3.23.8": "npm:zod@3.23.8"
+  "version": "4",
+  "specifiers": {
+    "jsr:@std/assert@^1.0.6": "1.0.11",
+    "jsr:@std/internal@^1.0.5": "1.0.5",
+    "npm:@sindresorhus/slugify@^2.2.1": "2.2.1",
+    "npm:p-memoize@^7.1.1": "7.1.1",
+    "npm:p-queue@^8.0.1": "8.1.0",
+    "npm:zod@^3.23.8": "3.24.1"
+  },
+  "jsr": {
+    "@std/assert@1.0.11": {
+      "integrity": "2461ef3c368fe88bc60e186e7744a93112f16fd110022e113a0849e94d1c83c1",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
     },
-    "jsr": {
-      "@std/assert@1.0.6": {
-        "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
-        "dependencies": [
-          "jsr:@std/internal@^1.0.4"
-        ]
-      },
-      "@std/internal@1.0.4": {
-        "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
-      },
-      "@std/path@1.0.6": {
-        "integrity": "ab2c55f902b380cf28e0eec501b4906e4c1960d13f00e11cfbcd21de15f18fed"
-      }
-    },
-    "npm": {
-      "@sindresorhus/slugify@2.2.1": {
-        "integrity": "sha512-MkngSCRZ8JdSOCHRaYd+D01XhvU3Hjy6MGl06zhOk614hp9EOAp5gIkBeQg7wtmxpitU6eAL4kdiRMcJa2dlrw==",
-        "dependencies": {
-          "@sindresorhus/transliterate": "@sindresorhus/transliterate@1.6.0",
-          "escape-string-regexp": "escape-string-regexp@5.0.0"
-        }
-      },
-      "@sindresorhus/transliterate@1.6.0": {
-        "integrity": "sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ==",
-        "dependencies": {
-          "escape-string-regexp": "escape-string-regexp@5.0.0"
-        }
-      },
-      "escape-string-regexp@5.0.0": {
-        "integrity": "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==",
-        "dependencies": {}
-      },
-      "eventemitter3@5.0.1": {
-        "integrity": "sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA==",
-        "dependencies": {}
-      },
-      "mimic-fn@4.0.0": {
-        "integrity": "sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==",
-        "dependencies": {}
-      },
-      "p-memoize@7.1.1": {
-        "integrity": "sha512-DZ/bONJILHkQ721hSr/E9wMz5Am/OTJ9P6LhLFo2Tu+jL8044tgc9LwHO8g4PiaYePnlVVRAJcKmgy8J9MVFrA==",
-        "dependencies": {
-          "mimic-fn": "mimic-fn@4.0.0",
-          "type-fest": "type-fest@3.13.1"
-        }
-      },
-      "p-queue@8.0.1": {
-        "integrity": "sha512-NXzu9aQJTAzbBqOt2hwsR63ea7yvxJc0PwN/zobNAudYfb1B7R08SzB4TsLeSbUCuG467NhnoT0oO6w1qRO+BA==",
-        "dependencies": {
-          "eventemitter3": "eventemitter3@5.0.1",
-          "p-timeout": "p-timeout@6.1.2"
-        }
-      },
-      "p-timeout@6.1.2": {
-        "integrity": "sha512-UbD77BuZ9Bc9aABo74gfXhNvzC9Tx7SxtHSh1fxvx3jTLLYvmVhiQZZrJzqqU0jKbN32kb5VOKiLEQI/3bIjgQ==",
-        "dependencies": {}
-      },
-      "type-fest@3.13.1": {
-        "integrity": "sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==",
-        "dependencies": {}
-      },
-      "zod@3.23.8": {
-        "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==",
-        "dependencies": {}
-      }
+    "@std/internal@1.0.5": {
+      "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     }
   },
-  "remote": {
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Barcode.json": "609a577c7774da7afa7a24517a8755055e27191aebaecb1e13ce01bdaed50142",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Barcodes.json": "6e34a901a3f65b57b3a58e91b31167fd8ec7478a4ce77f49ab365f4018da5bec",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Beacons.json": "e3163730d3fb252c7baa764941a3bca5e5e6bac998f580bdc251fbdea849e27d",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/BoardingPass.json": "42966f965f58ad114425fab4de42be16ff4309b6d763a12f9a5853e11e7a083a",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Coupon.json": "a034fdbb5225515679b50b4cb00bc3a5c217079d689602c1257bfdbf05cdc17b",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/EventTicket.json": "0e084d758676592eb4931b7986a892449902ed5e7edf04c679949681b4c212ea",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Generic.json": "4db59af35b11276c24bc8ccef0a6c64a17603bb70c4abd3aece310a78344b0a3",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/Locations.json": "8e6b12d4914fdfe9fdf6a0241e279f764dab1109baa6806e7b545f5422e780c3",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/NFC.json": "715a450e2feec2a3d1450cdac258a389a84a6318c038f720de0eeecc2095624a",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/Pass/StoreCard.json": "8d634c65305075fe182ca73178ca00df63ef2e8632dc373fd1dfd6f1bb860d02",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/AuxiliaryFields.json": "5308d03914caf8b01705cc80ccadb26fc62378d12fae126bbb05ebce720c03d4",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/BackFields.json": "30125f44d401da11b3595b97f16bb9784b2df9690044f763840198ee58be9896",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/HeaderFields.json": "9e4e5abf62463edc6e4f544a54d0618df63fa427f4d061674a9c2ba4d2c355cb",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/PrimaryFields.json": "f54581d89ab8879704c11dc729c7c771bcf8f1f20dfc2ab839acfe4c4dcd894f",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/PassFields/SecondaryFields.json": "d6ca6726006e692f18e30773b42b07a235f29a15a04b181702a98ac1dd746130",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/CurrencyAmount.json": "6af7cf56e4c4bf3afe832718886ee3fcc4afd9313a50046aadb7bf8265cb42e7",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/Location.json": "52a05fc863dd235167aedb05c1887f6b425dd23d99a35c39e3d94b906dc3209f",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/PersonNameComponents.json": "89ed81f8fd3537bdcef5c8056f0201db59600aceae1712d342b151c704d135dc",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/Seat.json": "d69d6bc87409695a436a1152969a860d9f9fab4d9cf05bdd1850553e51d11a5c",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTagType/WifiNetwork.json": "0814defd8da0c2c38e3f6a62eccb5687643929da2ac28376493b3ec43eead8d0",
-    "https://developer.apple.com/tutorials/data/documentation/WalletPasses/SemanticTags.json": "6487e01875e966377ce7e3c225dc2716602865de8cc5e01e98d6fcd1bc24ad90",
-    "https://developer.apple.com/tutorials/data/documentation/walletpasses/pass.json": "280c77f0d01623066d9937d7215130be48e61f417de911530cc6a9f7699e95a4",
-    "https://developer.apple.com/tutorials/data/documentation/walletpasses/passfieldcontent.json": "40e2909b17defea1aa3a0a56bf01e03f6582684c5419da823a34de59dd9bf7c7",
-    "https://developer.apple.com/tutorials/data/documentation/walletpasses/passfields.json": "596fe8ecbc46bb3ff8c85fb87e07b670546aa98cb838edb7287f0609ed7a96f4"
+  "npm": {
+    "@sindresorhus/slugify@2.2.1": {
+      "integrity": "sha512-MkngSCRZ8JdSOCHRaYd+D01XhvU3Hjy6MGl06zhOk614hp9EOAp5gIkBeQg7wtmxpitU6eAL4kdiRMcJa2dlrw==",
+      "dependencies": [
+        "@sindresorhus/transliterate",
+        "escape-string-regexp"
+      ]
+    },
+    "@sindresorhus/transliterate@1.6.0": {
+      "integrity": "sha512-doH1gimEu3A46VX6aVxpHTeHrytJAG6HgdxntYnCFiIFHEM/ZGpG8KiZGBChchjQmG0XFIBL552kBTjVcMZXwQ==",
+      "dependencies": [
+        "escape-string-regexp"
+      ]
+    },
+    "escape-string-regexp@5.0.0": {
+      "integrity": "sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw=="
+    },
+    "eventemitter3@5.0.1": {
+      "integrity": "sha512-GWkBvjiSZK87ELrYOSESUYeVIc9mvLLf/nXalMOS5dYrgZq9o5OVkbZAVM06CVxYsCwH9BDZFPlQTlPA1j4ahA=="
+    },
+    "mimic-fn@4.0.0": {
+      "integrity": "sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw=="
+    },
+    "p-memoize@7.1.1": {
+      "integrity": "sha512-DZ/bONJILHkQ721hSr/E9wMz5Am/OTJ9P6LhLFo2Tu+jL8044tgc9LwHO8g4PiaYePnlVVRAJcKmgy8J9MVFrA==",
+      "dependencies": [
+        "mimic-fn",
+        "type-fest"
+      ]
+    },
+    "p-queue@8.1.0": {
+      "integrity": "sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==",
+      "dependencies": [
+        "eventemitter3",
+        "p-timeout"
+      ]
+    },
+    "p-timeout@6.1.4": {
+      "integrity": "sha512-MyIV3ZA/PmyBN/ud8vV9XzwTrNtR4jFrObymZYnZqMmW0zA8Z17vnT0rBgFE/TlohB+YCHqXMgZzb3Csp49vqg=="
+    },
+    "type-fest@3.13.1": {
+      "integrity": "sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g=="
+    },
+    "zod@3.24.1": {
+      "integrity": "sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A=="
+    }
   },
   "workspace": {
     "dependencies": [

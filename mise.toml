@@ -1,0 +1,6 @@
+[tools]
+deno = "latest"
+
+[settings]
+experimental = true
+lockfile = true
