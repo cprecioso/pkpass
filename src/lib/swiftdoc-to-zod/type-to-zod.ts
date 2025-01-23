@@ -41,10 +41,9 @@ export const getType = (
   switch (part.kind) {
     case "text": {
       if (part.text.startsWith("[") && part.text.endsWith("]")) {
-        assert(!allowedValues, "Unsupported allowedValues inside an array");
         const inner = getType(
           [{ kind: "text", text: part.text.slice(1, -1) }],
-          { resolvers }
+          { resolvers, allowedValues }
         );
         return { ...inner, definition: makeArrayType(inner.definition) };
       }
