@@ -17,7 +17,10 @@ export const makeLocalizedPassSource = async <
   locales: Locales,
   fn: (context: Context<Locales>) => MaybePromise<{
     pass: Pass;
-    /** Check required images for your pass type at https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html */
+    /**
+     * Check required images for your pass type at
+     * https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
+     */
     images: Partial<
       Record<
         "logo" | "icon" | "strip" | "background" | "thumbnail" | "footer",
