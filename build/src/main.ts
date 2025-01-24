@@ -113,7 +113,10 @@ const makeManifest = async (files: Map<string, BufferSource>) =>
     ),
   );
 
-export const packagePass = async (source: ReadonlyMap<string, Uint8Array>) => {
+export const packagePass = async (
+  source: ReadonlyMap<string, Uint8Array>,
+  { fileName = "pass" } = {},
+) => {
   const files = new Map(source);
 
   const manifest = await makeManifest(files);
@@ -122,5 +125,9 @@ export const packagePass = async (source: ReadonlyMap<string, Uint8Array>) => {
   const signature = createPkcs7DetachedSignature(manifest);
   files.set("signature", signature);
 
-  return await makeZip(files);
+  const zip = await makeZip(files);
+
+  return new File([zip], `${fileName}.pkpass`, {
+    type: "application/vnd.apple.pkpass",
+  });
 };
