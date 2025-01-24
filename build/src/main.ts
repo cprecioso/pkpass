@@ -3,6 +3,7 @@ import {
   DataWalletPassesPass as passSchema,
 } from "@pkpass/schema";
 import { assert } from "@std/assert";
+import { extname } from "@std/path";
 import { createPkcs7DetachedSignature, sha1Hash } from "./crypto.ts";
 import { encodeToUtf8 } from "./encoding.ts";
 import { generateStringsCatalog } from "./strings-catalog.ts";
@@ -129,5 +130,35 @@ export const packagePass = async (
 
   return new File([zip], `${fileName}.pkpass`, {
     type: "application/vnd.apple.pkpass",
+  });
+};
+
+export const bundlePasses = async (
+  passes: readonly File[],
+  { fileName = "passes" } = {},
+) => {
+  assert(
+    passes.every((pass) =>
+      (extname(pass.name) === ".pkpass") ||
+      pass.type === "application/vnd.apple.pkpass"
+    ),
+    "Every pass must be a valid .pkpass file",
+  );
+
+  assert(passes.length > 0, "At least one pass must be provided");
+  assert(passes.length <= 10, "At most 10 passes can be bundled");
+
+  const files = new Map(
+    await Promise.all(
+      passes.map(async (pass) =>
+        [pass.name, new Uint8Array(await pass.arrayBuffer())] as const
+      ),
+    ),
+  );
+
+  const zip = await makeZip(files);
+
+  return new File([zip], `${fileName}.pkpasses`, {
+    type: "application/vnd.apple.pkpasses",
   });
 };
