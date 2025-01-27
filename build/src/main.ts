@@ -78,14 +78,15 @@ export const makeLocalizedPassSource = async <
   const result = await fn(context);
   const pass = passSchema.parse(result.pass);
 
-  const stringCatalogFiles = Array.from(
-    localizedVariants,
-    ([locale, localeMap]) =>
-      [
-        `${locale}.lproj/pass.strings`,
-        generateStringsCatalog(localeMap),
-      ] as const,
-  );
+  const stringCatalogFiles = localizedVariants.entries()
+    .filter(([, localeMap]) => localeMap.size > 0)
+    .map(
+      ([locale, localeMap]) =>
+        [
+          `${locale}.lproj/pass.strings`,
+          generateStringsCatalog(localeMap),
+        ] as const,
+    );
 
   const binaryFilePairs: FilePair[] = [
     ["pass.json", encodeToUtf8(JSON.stringify(pass))],
