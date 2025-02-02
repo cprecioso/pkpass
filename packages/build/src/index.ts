@@ -11,28 +11,53 @@ import {
 } from "./crypto";
 import { encodeToUtf8 } from "./encoding";
 import { generateStringsCatalog } from "./strings-catalog";
-import type { Context, FilePair, LocalesBase } from "./types";
+import type { FilePair, LocalesBase, PassBuilderContext } from "./types";
 import { makeZip } from "./zip";
+
+export type { SigningOptions } from "./crypto";
+export type { PassBuilderContext } from "./types";
 
 type MaybePromise<T> = T | Promise<T>;
 
+export interface PassDefinition {
+  /** The information on the pass */
+  pass: Pass;
+  /**
+   * Check required images for your pass type at
+   * https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
+   *
+   * @example
+   * ```ts
+   * ({
+   *   logo: {
+   *     1x: fs.readFileSync("./logo_1.png"),
+   *     2x: fs.readFileSync("./logo_1.png"),
+   *   },
+   * })
+   * ```
+   */
+  images: Partial<
+    Record<
+      "logo" | "icon" | "strip" | "background" | "thumbnail" | "footer",
+      Partial<Record<`${1 | 2 | 3}x`, Uint8Array>>
+    >
+  >;
+}
+
+/**
+ * Create a pass source from an object. Passes objects are typed and will be checked against the schema.
+ *
+ * If you want to localize a specific string, you can use the {@link PassBuilderContext.localizedString} function.
+ *
+ * @returns A map of the file names inside the pass bundle, with their binary contents.
+ */
 export const makeLocalizedPassSource = async <
   const Locales extends LocalesBase,
 >(
   locales: Locales,
-  fn: (context: Context<Locales>) => MaybePromise<{
-    pass: Pass;
-    /**
-     * Check required images for your pass type at
-     * https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
-     */
-    images: Partial<
-      Record<
-        "logo" | "icon" | "strip" | "background" | "thumbnail" | "footer",
-        Partial<Record<`${1 | 2 | 3}x`, Uint8Array>>
-      >
-    >;
-  }>,
+  passBuilderFn: (
+    context: PassBuilderContext<Locales>,
+  ) => MaybePromise<PassDefinition>,
 ): Promise<Map<string, Uint8Array>> => {
   const localizedVariants: Map<Locales[number], Map<string, string>> = new Map(
     locales.map((locale) => [locale, new Map()]),
@@ -41,11 +66,8 @@ export const makeLocalizedPassSource = async <
 
   let localizedStringCounter = 0;
 
-  const context: Context<Locales> = {
-    localizedString: ({
-      default: key,
-      ...variants
-    }: Record<string, string>) => {
+  const context: PassBuilderContext<Locales> = {
+    localizedString: ({ key, ...variants }: Record<string, string>) => {
       key ??= `localized-string-${localizedStringCounter++}`;
 
       {
@@ -79,7 +101,7 @@ export const makeLocalizedPassSource = async <
     },
   };
 
-  const result = await fn(context);
+  const result = await passBuilderFn(context);
   const pass = passSchema.parse(result.pass);
 
   const stringCatalogFiles = localizedVariants
@@ -106,6 +128,15 @@ export const makeLocalizedPassSource = async <
   return new Map(binaryFilePairs);
 };
 
+/**
+ * Create a pass source from an object.
+ * Passes objects are typed and will be checked against the schema.
+ *
+ * @returns A map of the file names inside the pass bundle, with their binary contents.
+ */
+export const makePassSource = async (passDefinition: PassDefinition) =>
+  makeLocalizedPassSource([], () => passDefinition);
+
 const makeManifest = async (files: Map<string, Uint8Array>) =>
   encodeToUtf8(
     JSON.stringify(
@@ -120,17 +151,41 @@ const makeManifest = async (files: Map<string, Uint8Array>) =>
     ),
   );
 
+/**
+ * Creates a pass package from its source. Handles creating
+ * the manifest, signing it, and zipping everything together.
+ *
+ * @param source
+ * @param options
+ *
+ * @returns A [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File)
+ * object representing the pass package, with the correct name and
+ * MIME type (`application/vnd.apple.pkpass`).
+ */
 export const packagePass = async (
+  /**
+   * The pass source as a Map of file name to its binary content
+   * (the return type of {@link makePassSource} or {@link makeLocalizedPassSource}).
+   */
   source: ReadonlyMap<string, Uint8Array>,
   {
     fileName = "pass",
     signingOptions,
   }: {
+    /**
+     * Which basename to give to the resulting file (`.pkpass` will be appended to this).
+     *
+     * @default "pass"
+     */
     fileName?: string;
     signingOptions: SigningOptions;
   },
 ): Promise<File> => {
   const files = new Map(source);
+
+  // We delete the manifest and signature files if they exist just in case
+  files.delete("manifest.json");
+  files.delete("signature");
 
   const manifest = await makeManifest(files);
   files.set("manifest.json", manifest);
@@ -145,9 +200,35 @@ export const packagePass = async (
   });
 };
 
+/**
+ * If you have multiple passes you want to distribute to the user
+ * in one go, you can optionally bundle them together with this
+ * function, which will create a `.pkpasses` file containing all
+ * the passes.
+ *
+ * > [!NOTE]
+ * > A maximum of 10 passes, and a minimum of 1 pass can be bundled.
+ *
+ * @param passes
+ * @param options
+ *
+ * @returns A [`File`](https://developer.mozilla.org/en-US/docs/Web/API/File)
+ * object representing the passes bundle, with the correct name and
+ * MIME type (`application/vnd.apple.pkpasses`).
+ */
 export const bundlePasses = async (
+  /** An array of `File` objects representing the passes (e.g. the output of {@link packagePass}). */
   passes: readonly File[],
-  { fileName = "passes" } = {},
+  {
+    fileName = "passes",
+  }: {
+    /**
+     * Which basename to give to the resulting file (`.pkpasses` will be appended to this).
+     *
+     * @default "passes"
+     */
+    fileName?: string;
+  } = {},
 ): Promise<File> => {
   assert(
     passes.every(

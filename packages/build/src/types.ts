@@ -5,9 +5,23 @@ export type LocalesBase = readonly string[];
 export type LocalizedStringVariants<Locales extends LocalesBase> = Record<
   Locales[number],
   string
-> & { default?: string };
+> & { key?: string };
 
-export interface Context<Locales extends LocalesBase> {
+export interface PassBuilderContext<Locales extends LocalesBase> {
+  /**
+   * Creates a localized string, that changes based on the locale of the user
+   *
+   * You're expected to give a translation for each of the locales you have
+   * declared.
+   *
+   * @example
+   * ```ts
+   * localizedString({
+   *   en: "Hello",
+   *   es: "Hola",
+   * })
+   * ```
+   */
   localizedString: (
     variants: LocalizedStringVariants<Locales>,
   ) => localizableString;

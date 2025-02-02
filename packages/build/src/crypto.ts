@@ -4,9 +4,34 @@ import { createHash } from "node:crypto";
 export const sha1Hash = async (source: Uint8Array) =>
   createHash("sha1").update(source).digest("hex");
 
+/**
+ * An object detailing the keys and certificates to sign the pass with
+ *
+ * They all should be passed as [`node-forge`](https://www.npmjs.com/package/node-forge) objects.
+ *
+ * @example
+ * ```ts
+ * const signerKey = forge.pki.privateKeyFromPem(fs.readFileSync("key.pem", "utf-8"));
+ * const signerCertificate = forge.pki.certificateFromPem(fs.readFileSync("cert.pem", "utf-8"));
+ * const wwdrCertificate = forge.pki.certificateFromPem(fs.readFileSync("wwdr.pem", "utf-8"));
+ *
+ * const signingOptions = { signerKey, signerCertificate, wwdrCertificate };
+ * ```
+ */
 export interface SigningOptions {
+  /** The private key to sign the pass with. You should get this from your Apple Developer account. */
   signerKey: forge.pki.rsa.PrivateKey;
+  /** The certificate to sign the pass with. You should get this from your Apple Developer account. */
   signerCertificate: forge.pki.Certificate;
+  /**
+   * The Apple Worldwide Developer Relations certificate that your pass certificate is signed with.
+   * These are available at [their website](https://www.apple.com/certificateauthority/).
+   *
+   * > [!IMPORTANT]
+   * > Please note that the WWDR certificates are called `G{number}`. You should use the one that
+   * > matches the one your pass certificate is signed with. You can check this by opening the
+   * > certificate in Keychain Access and looking at the issuer.
+   */
   wwdrCertificate: forge.pki.Certificate;
 }
 
