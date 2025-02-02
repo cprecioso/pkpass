@@ -3,5 +3,8 @@
   "exports": "./out/schema.ts",
   "imports": {
     "prettier": "npm:prettier@^3.4.2"
+  },
+  "publish": {
+    "exclude": ["!out/"]
   }
 }
