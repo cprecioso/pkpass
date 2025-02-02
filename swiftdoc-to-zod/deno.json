@@ -1,5 +1,7 @@
 {
   "name": "@pkpass/swiftdoc-to-zod",
+  "version": "1.0.0",
+  "license": "MIT",
   "exports": "./src/main.ts",
   "imports": {
     "@sindresorhus/slugify": "npm:@sindresorhus/slugify@^2.2.1",
