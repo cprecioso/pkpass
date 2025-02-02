@@ -33,7 +33,7 @@ export const makeLocalizedPassSource = async <
       >
     >;
   }>,
-) => {
+): Promise<Map<string, Uint8Array>> => {
   const localizedVariants: Map<Locales[number], Map<string, string>> = new Map(
     locales.map((locale) => [locale, new Map()]),
   );
@@ -125,7 +125,7 @@ export const packagePass = async (
     fileName?: string;
     signingOptions: SigningOptions;
   },
-) => {
+): Promise<File> => {
   const files = new Map(source);
 
   const manifest = await makeManifest(files);
@@ -144,7 +144,7 @@ export const packagePass = async (
 export const bundlePasses = async (
   passes: readonly File[],
   { fileName = "passes" } = {},
-) => {
+): Promise<File> => {
   assert(
     passes.every((pass) =>
       (extname(pass.name) === ".pkpass") ||
