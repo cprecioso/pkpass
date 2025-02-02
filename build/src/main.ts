@@ -4,7 +4,11 @@ import {
 } from "@pkpass/schema";
 import { assert } from "@std/assert";
 import { extname } from "@std/path";
-import { createPkcs7DetachedSignature, sha1Hash } from "./crypto.ts";
+import {
+  createPkcs7DetachedSignature,
+  sha1Hash,
+  type SigningOptions,
+} from "./crypto.ts";
 import { encodeToUtf8 } from "./encoding.ts";
 import { generateStringsCatalog } from "./strings-catalog.ts";
 import type { Context, FilePair, LocalesBase } from "./types.ts";
@@ -117,14 +121,17 @@ const makeManifest = async (files: Map<string, BufferSource>) =>
 
 export const packagePass = async (
   source: ReadonlyMap<string, Uint8Array>,
-  { fileName = "pass" } = {},
+  { fileName = "pass", signingOptions }: {
+    fileName?: string;
+    signingOptions: SigningOptions;
+  },
 ) => {
   const files = new Map(source);
 
   const manifest = await makeManifest(files);
   files.set("manifest.json", manifest);
 
-  const signature = createPkcs7DetachedSignature(manifest);
+  const signature = createPkcs7DetachedSignature(manifest, signingOptions);
   files.set("signature", signature);
 
   const zip = await makeZip(files);
