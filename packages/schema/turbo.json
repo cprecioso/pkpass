@@ -3,6 +3,7 @@
   "extends": ["//"],
   "tasks": {
     "fetch-types": {
+      "dependsOn": ["^build"],
       "cache": false,
       "outputs": ["./out/**/*"]
     },
