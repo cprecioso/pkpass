@@ -1,0 +1,29 @@
+{
+  "name": "@pkpass/schema",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "./dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "fetch-types": "tsx ./scripts/build.ts"
+  },
+  "peerDependencies": {
+    "zod": "^3.24.1"
+  },
+  "dependencies": {
+    "@pkpass/schema-runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@cprecioso/tsconfig": "^2.0.1",
+    "@pkpass/swiftdoc-to-zod": "workspace:*",
+    "@types/node": "^22.13.0",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

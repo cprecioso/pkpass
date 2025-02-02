@@ -1,0 +1,16 @@
+{
+  "name": "@pkpass/repo",
+  "private": true,
+  "workspaces": [
+    "./packages/*"
+  ],
+  "packageManager": "yarn@4.6.0",
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "prettier-plugin-pkg": "^0.18.1",
+    "prettier-plugin-sh": "^0.14.0",
+    "turbo": "^2.4.0",
+    "typescript": "^5.7.3"
+  }
+}

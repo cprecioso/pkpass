@@ -1,0 +1,14 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "fetch-types": {
+      "cache": false,
+      "outputs": ["./out/**/*"]
+    },
+    "build": {
+      "dependsOn": ["^build", "fetch-types"],
+      "outputs": ["dist/**/*"]
+    }
+  }
+}

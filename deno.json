@@ -1,6 +1,0 @@
-{
-  "workspace": ["./schema", "./swiftdoc-to-zod", "./schema-runtime", "./build"],
-  "imports": {
-    "zod": "npm:zod@^3.24.1"
-  }
-}
