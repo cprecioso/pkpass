@@ -2,3 +2,4 @@ node_modules/
 .yarn/
 .parcel-cache/
 .turbo/
+/docs
