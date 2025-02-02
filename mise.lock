@@ -1,6 +1,6 @@
 [tools.deno]
-version = "2.1.7"
+version = "2.1.9"
 backend = "core:deno"
 
 [tools.deno.checksums]
-"deno-aarch64-apple-darwin.zip" = "sha256:51280cbbac5c84aee6346737e46667be8919ada2d55e5707704c999be3ef6c41"
+"deno-aarch64-apple-darwin.zip" = "sha256:6b8a81048289a9627b64e170cfaf48c321d3aefa37f759f549b2187db3338f18"
