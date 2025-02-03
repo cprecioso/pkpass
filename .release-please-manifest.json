@@ -1,1 +1,6 @@
-{}
+{
+  "packages/build": "1.0.1",
+  "packages/schema": "1.0.1",
+  "packages/schema-runtime": "1.0.1",
+  "packages/swiftdoc-to-zod": "1.0.1"
+}
