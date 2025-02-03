@@ -476,7 +476,7 @@ __metadata:
     typescript: "npm:^5.7.3"
     zod: "npm:^3.24.1"
   peerDependencies:
-    "@pkpass/schema": "workspace:*"
+    "@pkpass/schema": "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -494,7 +494,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pkpass/schema-runtime@workspace:*, @pkpass/schema-runtime@workspace:packages/schema-runtime":
+"@pkpass/schema-runtime@workspace:*, @pkpass/schema-runtime@workspace:^, @pkpass/schema-runtime@workspace:packages/schema-runtime":
   version: 0.0.0-use.local
   resolution: "@pkpass/schema-runtime@workspace:packages/schema-runtime"
   dependencies:
@@ -512,7 +512,7 @@ __metadata:
   resolution: "@pkpass/schema@workspace:packages/schema"
   dependencies:
     "@cprecioso/tsconfig": "npm:^2.0.1"
-    "@pkpass/schema-runtime": "workspace:*"
+    "@pkpass/schema-runtime": "workspace:^"
     "@pkpass/swiftdoc-to-zod": "workspace:*"
     "@types/node": "npm:^22.13.0"
     tsup: "npm:^8.3.6"
@@ -536,7 +536,7 @@ __metadata:
     tsup: "npm:^8.3.6"
     typescript: "npm:^5.7.3"
   peerDependencies:
-    "@pkpass/schema-runtime": "workspace:*"
+    "@pkpass/schema-runtime": "workspace:^"
     zod: ^3.24.1
   languageName: unknown
   linkType: soft
