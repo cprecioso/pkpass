@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/refs/heads/main/schemas/config.json",
+  "packages": {
+    "packages/build": {},
+    "packages/schema": {},
+    "packages/schema-runtime": {},
+    "packages/swiftdoc-to-zod": {}
+  },
+  "plugins": [{ "type": "node-workspace", "updatePeerDependencies": true }]
+}
