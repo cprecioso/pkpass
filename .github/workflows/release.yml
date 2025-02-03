@@ -31,4 +31,9 @@ jobs:
     needs: [build, release]
     uses: ./.github/workflows/publish.yml
     secrets: inherit
+
+    permissions:
+      contents: read
+      id-token: write
+
     if: ${{ needs.release.outputs.release_created }}
