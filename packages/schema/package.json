@@ -16,7 +16,7 @@
     "zod": "^3.24.1"
   },
   "dependencies": {
-    "@pkpass/schema-runtime": "workspace:*"
+    "@pkpass/schema-runtime": "workspace:^"
   },
   "devDependencies": {
     "@cprecioso/tsconfig": "^2.0.1",

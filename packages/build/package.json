@@ -12,7 +12,7 @@
     "build": "tsup"
   },
   "peerDependencies": {
-    "@pkpass/schema": "workspace:*"
+    "@pkpass/schema": "workspace:^"
   },
   "dependencies": {
     "@zip.js/zip.js": "^2.7.57",

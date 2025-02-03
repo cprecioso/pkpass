@@ -12,7 +12,7 @@
     "build": "tsup"
   },
   "peerDependencies": {
-    "@pkpass/schema-runtime": "workspace:*",
+    "@pkpass/schema-runtime": "workspace:^",
     "zod": "^3.24.1"
   },
   "dependencies": {
