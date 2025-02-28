@@ -23,7 +23,7 @@ jobs:
         id: release-please
 
     outputs:
-      release_created: ${{ steps.release-please.outputs.release_created }}
+      releases_created: ${{ steps.release-please.outputs.releases_created }}
 
   publish:
     needs: [build, release]
@@ -35,4 +35,4 @@ jobs:
       pages: write
       id-token: write
 
-    if: ${{ needs.release.outputs.release_created }}
+    if: ${{ needs.release.outputs.releases_created }}
