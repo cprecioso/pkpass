@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.4](https://github.com/cprecioso/pkpass/compare/build-v1.0.3...build-v1.0.4) (2025-02-28)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * devDependencies
+    * @pkpass/schema bumped to 1.0.4
+  * peerDependencies
+    * @pkpass/schema bumped to 1.0.4
+
 ## [1.0.3](https://github.com/cprecioso/pkpass/compare/build-v1.0.2...build-v1.0.3) (2025-02-03)
 
 
