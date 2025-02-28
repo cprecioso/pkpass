@@ -32,3 +32,14 @@ export type localizedString = z.input<typeof localizedString>;
 /** A type for a string that can be plain or {@link localizedString} */
 export const localizableString = z.string().or(localizedString);
 export type localizableString = z.input<typeof localizableString>;
+
+const RGB_TRIPLE_REGEX = /^rgb\(\d+, \d+, \d+\)$/;
+export const rgbTriple = z.custom<`rgb(${number}, ${number}, ${number})`>(
+  (val) => typeof val === "string" && RGB_TRIPLE_REGEX.test(val),
+);
+
+export const timezone = z.custom<`${string}/${string}`>((val) => {
+  if (typeof val !== "string") return false;
+  const splits = val.split("/");
+  return Boolean(splits.length === 2 && splits[0] && splits[1]);
+});

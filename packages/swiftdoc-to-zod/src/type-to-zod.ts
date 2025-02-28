@@ -105,6 +105,14 @@ export const getType = (
             ].join(",")}])`,
           };
 
+        case "RGB triple as string": {
+          return { definition: customScalar("rgbTriple") };
+        }
+
+        case "Time zone database identifier as string": {
+          return { definition: customScalar("timezone") };
+        }
+
         default: {
           return assertUnrecognizedValue("TypePart text", part.text as never);
         }
