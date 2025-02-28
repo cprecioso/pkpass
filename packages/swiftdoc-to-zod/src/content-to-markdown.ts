@@ -1,4 +1,4 @@
-import assert from "node:assert/strict";
+import { assertUnrecognizedValue } from "./error-handling";
 import type { ReferenceResolvers } from "./reference-resolvers";
 import type { ContentInlinePart, ContentPart } from "./schema";
 
@@ -24,10 +24,8 @@ export const contentInlinePartsToMarkdown = (
           resolvers,
         )}_`;
       }
-      default: {
-        part satisfies never;
-        throw new Error(`Unreachable: Unknown ContentInlinePart type`);
-      }
+      default:
+        return assertUnrecognizedValue("ContentInlinePart type", part);
     }
   }).join("");
 
@@ -36,10 +34,9 @@ export const contentPartsToMarkdown = (
   resolvers: ReferenceResolvers,
 ) =>
   Array.from(parts, (part) => {
-    assert.equal(
-      part.type satisfies "paragraph",
-      "paragraph",
-      "Unknown ContentPart type",
-    );
-    return contentInlinePartsToMarkdown(part.inlineContent, resolvers);
+    if (part.type === "paragraph") {
+      return contentInlinePartsToMarkdown(part.inlineContent, resolvers);
+    } else {
+      return assertUnrecognizedValue("ContentPart type", part.type);
+    }
   }).join("\n\n");

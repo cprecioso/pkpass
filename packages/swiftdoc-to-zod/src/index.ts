@@ -1,5 +1,6 @@
 import pMemoize from "p-memoize";
 import PQueue from "p-queue";
+import { withPath } from "./error-handling";
 import { convertModel as eagerConvertModel } from "./object-to-model";
 
 /**
@@ -55,7 +56,9 @@ export const convertSchema = async (
   const addReference = async (docUri: string) =>
     (await modelQueue.add(async () => {
       docUri = docUri.replace(baseUri, "/");
-      return await convertModel(docUri, { baseUrl, addReference, fetchJson });
+      return await withPath(docUri, () =>
+        convertModel(docUri, { baseUrl, addReference, fetchJson }),
+      );
     }))!;
 
   await addReference(documentURL);

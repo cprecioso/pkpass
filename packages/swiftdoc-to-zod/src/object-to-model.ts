@@ -1,8 +1,8 @@
-import assert from "node:assert/strict";
 import {
   contentInlinePartsToMarkdown,
   contentPartsToMarkdown,
 } from "./content-to-markdown";
+import { assert, withPath } from "./error-handling";
 import { toJSDocComment } from "./jsdoc-comments";
 import { ReferenceResolvers } from "./reference-resolvers";
 import { documentSchema } from "./schema";
@@ -33,44 +33,50 @@ export const convertModel = async (
 
   const properties = data.primaryContentSections
     .find((sections) => sections.kind === "properties")
-    ?.items.map((property) => ({
-      name: property.name,
-      type: property.type,
-      description: contentPartsToMarkdown(property.content, resolvers),
-      required: property.required,
-      allowedValues: property.attributes?.find(
-        (attribute) => attribute.kind === "allowedValues",
-      )?.values,
-    }));
+    ?.items.map((property) =>
+      withPath(`property ${property.name}`, () => ({
+        name: property.name,
+        type: property.type,
+        description: contentPartsToMarkdown(property.content, resolvers),
+        required: property.required,
+        allowedValues: property.attributes?.find(
+          (attribute) => attribute.kind === "allowedValues",
+        )?.values,
+      })),
+    );
 
   const modelBodyLines = await Promise.all(
-    properties?.map(async (property) => {
-      const type = getType(property.type, {
-        resolvers,
-        allowedValues: property.allowedValues,
-      });
-
-      if (type.references) {
-        await Promise.all(type.references.map((uri) => addReference(uri)));
-      }
-
-      return [
-        (property.description || type.deprecated) &&
-          toJSDocComment({
-            content: property.description,
-            deprecated: type.deprecated,
+    properties?.map((property) =>
+      withPath(`property ${property.name}`, async () => {
+        const type = withPath("type", () =>
+          getType(property.type, {
+            resolvers,
+            allowedValues: property.allowedValues,
           }),
-        JSON.stringify(property.name),
-        ": ",
-        type.definition,
-        // Workaround because the PassFields definitions are not declared as arrays for some reason
-        property.name.endsWith("Fields") && ".array()",
-        !property.required && ".optional()",
-        ",\n",
-      ]
-        .filter((v): v is string => Boolean(v))
-        .join("");
-    }) ?? [],
+        );
+
+        if (type.references) {
+          await Promise.all(type.references.map((uri) => addReference(uri)));
+        }
+
+        return [
+          (property.description || type.deprecated) &&
+            toJSDocComment({
+              content: property.description,
+              deprecated: type.deprecated,
+            }),
+          JSON.stringify(property.name),
+          ": ",
+          type.definition,
+          // Workaround because the PassFields definitions are not declared as arrays for some reason
+          property.name.endsWith("Fields") && ".array()",
+          !property.required && ".optional()",
+          ",\n",
+        ]
+          .filter((v): v is string => Boolean(v))
+          .join("");
+      }),
+    ) ?? [],
   );
 
   const inheritsFrom = data.relationshipsSections?.find(
@@ -80,7 +86,7 @@ export const convertModel = async (
   let base = "z.object";
 
   if (inheritsFrom) {
-    assert.equal(inheritsFrom.length, 1);
+    assert(inheritsFrom.length === 1, "Only one 'inheritsFrom' is allowed");
     const [uri] = inheritsFrom;
     const referencedModel = await addReference(uri);
 

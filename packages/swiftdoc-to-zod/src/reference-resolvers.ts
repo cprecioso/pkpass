@@ -1,5 +1,5 @@
 import slugify from "@sindresorhus/slugify";
-import assert from "node:assert/strict";
+import { assert } from "./error-handling";
 import type { Document } from "./schema";
 
 const URI_PREFIX = /^doc:\/\/com.apple.documentation\//;

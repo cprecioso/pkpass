@@ -1,5 +1,5 @@
 import type * as definedCustomScalars from "@pkpass/schema-runtime";
-import assert from "node:assert/strict";
+import { assert, assertUnrecognizedValue } from "./error-handling";
 import type { ReferenceResolvers } from "./reference-resolvers";
 import type { TypePart } from "./schema";
 
@@ -36,7 +36,7 @@ export const getType = (
     }
   }
 
-  assert.equal(parts.length, 1);
+  assert(parts.length === 1, "Only one part allowed");
   const [part] = parts;
 
   switch (part.kind) {
@@ -64,7 +64,7 @@ export const getType = (
                 .join(", ")}])`,
             };
           default: {
-            throw new Error(`Unreachable: Unknown allowed values type`);
+            return assertUnrecognizedValue("AllowedValues", part.text as never);
           }
         }
       }
@@ -106,7 +106,7 @@ export const getType = (
           };
 
         default: {
-          throw new Error(`Unreachable: Unknown TypePart text`);
+          return assertUnrecognizedValue("TypePart text", part.text as never);
         }
       }
     }
@@ -120,8 +120,7 @@ export const getType = (
     }
 
     default: {
-      part satisfies never;
-      throw new Error(`Unreachable: Unknown TypePart kind`);
+      return assertUnrecognizedValue("TypePart kind", part);
     }
   }
 };
