@@ -1,6 +1,6 @@
 {
   "name": "@pkpass/build",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.js",

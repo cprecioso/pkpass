@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.4](https://github.com/cprecioso/pkpass/compare/schema-v1.0.3...schema-v1.0.4) (2025-02-28)
+
+
+### Dependencies
+
+* The following workspace dependencies were updated
+  * dependencies
+    * @pkpass/schema-runtime bumped to 1.1.0
+  * devDependencies
+    * @pkpass/swiftdoc-to-zod bumped to 1.1.0
+
 ## [1.0.3](https://github.com/cprecioso/pkpass/compare/schema-v1.0.2...schema-v1.0.3) (2025-02-03)
 
 

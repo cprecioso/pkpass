@@ -1,6 +1,6 @@
 {
-  "packages/build": "1.0.3",
-  "packages/schema": "1.0.3",
-  "packages/schema-runtime": "1.0.3",
-  "packages/swiftdoc-to-zod": "1.0.3"
+  "packages/build": "1.0.4",
+  "packages/schema": "1.0.4",
+  "packages/schema-runtime": "1.1.0",
+  "packages/swiftdoc-to-zod": "1.1.0"
 }

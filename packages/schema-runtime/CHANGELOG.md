@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/cprecioso/pkpass/compare/schema-runtime-v1.0.3...schema-runtime-v1.1.0) (2025-02-28)
+
+
+### Features
+
+* add new property types ([cb13086](https://github.com/cprecioso/pkpass/commit/cb130865567c334f76997823c28c9fee1acf0157))
+
 ## [1.0.3](https://github.com/cprecioso/pkpass/compare/schema-runtime-v1.0.2...schema-runtime-v1.0.3) (2025-02-03)
 
 
