@@ -27,6 +27,7 @@ jobs:
           name: packages
 
       - run: npm install -g npm
+      - run: ls -R .
       - run: |
           for file in out/*.tgz; do
             npm publish --provenance --access public "$file"
